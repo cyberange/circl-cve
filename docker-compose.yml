@@ -1,0 +1,72 @@
+version: '2'
+
+services:
+  circlcve:
+    build: .
+    user: root
+    restart: always
+    ports:
+      - "8000:8000"
+    entrypoint: /deploy/app/entrypoint.sh
+    environment:
+      - SECRET_KEY="rEMZbzZiNjcmqYrxqXdPsW1W5JO8Aoqe"
+      - PORTAL_ADMIN="admin@webmaster.com"
+      - DEFAULT_MAIL_SENDER="circlecve@webmaster.com"
+      - MAIL_SERVER=localhost
+      - MAIL_PORT=25
+      - MAIL_USE_TLS=yes
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+      - MONGO_DB=circlcve
+      - DB_TYPE=mysql
+      - DB_HOST=db
+      - DB_USER=circlcve
+      - DB_PORT=3306
+      - DB_PASS=circlcve
+      - DB_NAME=circlcve
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - REDIS_DB=circlcve
+    volumes:
+      - .data/gpg:/gpg
+    depends_on:
+      - mysql
+      - mongo
+      - redis
+    networks:
+        default:
+        internal:
+
+  mongo:
+    image: mongo:3.4
+    restart: always
+    volumes: 
+      - .data/mongo:/data/db
+
+  db:
+    image: mariadb:10.4
+    restart: always
+    environment:
+      - MYSQL_ROOT_PASSWORD=Uv5uVtDCNOma4TSGUrGAPFTa
+      - MYSQL_USER=circlcve
+      - MYSQL_PASSWORD=circlcve
+      - MYSQL_DATABASE=circlcve
+    volumes:
+      - .data/mysql:/var/lib/mysql
+    networks:
+        internal:
+    # This command is required to set important mariadb defaults
+    command: [mysqld, --character-set-server=utf8mb4, --collation-server=utf8mb4_unicode_ci, --wait_timeout=28800, --log-warnings=0]
+
+  redis:
+    image: redis:4
+    restart: always
+    volumes:
+    - .data/redis:/data
+    networks:
+        internal:
+
+networks:
+    default:
+    internal:
+        internal: true

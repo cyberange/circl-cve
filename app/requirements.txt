@@ -1,0 +1,22 @@
+flask
+flask-bootstrap
+flask-wtf
+flask-login
+
+flask-SQLAlchemy
+mysql-python; python_version < '2.7'
+
+flask-script
+flask-mail
+flask-scrypt
+
+# git+https://github.com/isislovecruft/python-gnupg.git
+redis
+flask-pymongo
+whoosh
+gunicorn
+gnupg
+
+##posgreDB##
+#postgresql-server-dev-9.1
+#pycopg2
