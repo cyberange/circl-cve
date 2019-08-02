@@ -11,9 +11,8 @@ from flask_pymongo import PyMongo
 
 import models
 
-
 def send_email(to, subject, template, **kwargs):
-    msg = Message(subject, recipients=[to], sender=os.getenv('DEFAULT_MAIL_SENDER'))
+    msg = Message(subject, recipients=[to], sender=os.getenv('MAIL_DEFAULT_SENDER'))
     msg.body = render_template(template + '.txt', **kwargs)
     msg.html = render_template(template + '.html', **kwargs)
     return mail.send(msg)

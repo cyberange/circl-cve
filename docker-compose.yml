@@ -9,12 +9,14 @@ services:
       - "8000:8000"
     entrypoint: /deploy/app/entrypoint.sh
     environment:
-      - SECRET_KEY="rEMZbzZiNjcmqYrxqXdPsW1W5JO8Aoqe"
-      - PORTAL_ADMIN="admin@webmaster.com"
-      - DEFAULT_MAIL_SENDER="circlecve@webmaster.com"
-      - MAIL_SERVER=localhost
-      - MAIL_PORT=25
+      - SECRET_KEY=rEMZbzZiNjcmqYrxqXdPsW1W5JO8Aoqe
+      - PORTAL_ADMIN=iamalsaher@sendgrid.net
+      - MAIL_DEFAULT_SENDER=iamalsaher@iamalsaher.tech
+      - MAIL_SERVER=smtp.sendgrid.net
+      - MAIL_PORT=587
       - MAIL_USE_TLS=yes
+      - MAIL_USERNAME=
+      - MAIL_PASSWORD=
       - MONGO_HOST=mongo
       - MONGO_PORT=27017
       - MONGO_DB=circlcve
@@ -30,7 +32,7 @@ services:
     volumes:
       - .data/gpg:/gpg
     depends_on:
-      - mysql
+      - db
       - mongo
       - redis
     networks:

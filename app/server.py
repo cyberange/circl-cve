@@ -10,7 +10,7 @@ from flask_login import LoginManager, current_user
 from flask_script import Manager
 
 import models
-from utils import mail
+from utils import mail, mongo
 from views.main import main_blueprint
 from views.notif import notif_blueprint, mongo
 from views.user import user_blueprint
@@ -25,14 +25,6 @@ app.register_blueprint(main_blueprint)
 app.register_blueprint(notif_blueprint, url_prefix='/notif')
 app.register_blueprint(user_blueprint, url_prefix='/user')
 
-# Login_manager (session)
-login_manager = LoginManager(app)
-login_manager.session_protection = 'strong'
-login_manager.anonymous_user = models.AnonymousUser
-
-mail.init_app(app)
-manager = Manager(app)
-bootstrap = Bootstrap(app)
 app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 
 # app.config['SERVER_NAME'] = "www.circl.lu:443"
@@ -43,7 +35,10 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
 app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
 app.config['MAIL_USE_TLS'] = True if os.getenv('MAIL_USE_TLS') else False
-app.config['DEFAULT_MAIL_SENDER'] = os.getenv('DEFAULT_MAIL_SENDER')
+app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
+app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+mail.init_app(app)
 
 # Super Admin #
 app.config['PORTAL_ADMIN'] = os.getenv('PORTAL_ADMIN')
@@ -53,7 +48,6 @@ mongo_host = os.getenv('MONGO_HOST')
 mongo_port = os.getenv('MONGO_PORT')
 mongo_dbname = os.getenv('MONGO_DB')
 app.config['MONGO_URI']= "mongodb://"+mongo_host+":"+mongo_port+"/"+mongo_dbname
-# app.config['MONGO_DBNAME'] = 
 mongo.init_app(app)
 
 # SYSLOG #
@@ -69,6 +63,15 @@ db_name = os.getenv('DB_NAME')
 app.config['SQLALCHEMY_DATABASE_URI'] = db_type + '://' + db_user + ':' + db_pwd + '@' + db_hostname + '/' + db_name
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+# Login_manager (session)
+login_manager = LoginManager(app)
+login_manager.session_protection = 'strong'
+login_manager.anonymous_user = models.AnonymousUser
+
+
+manager = Manager(app)
+bootstrap = Bootstrap(app)
 models.db.init_app(app)
 
 
