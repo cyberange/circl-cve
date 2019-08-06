@@ -73,7 +73,7 @@ class User(UserMixin, db.Model):
     affiliation = db.Column(db.String(64), nullable=True)
     pgp = db.Column(db.Text, nullable=True)
     fingerprint = db.Column(db.String(64), nullable=True)
-    confirmed = db.Column(db.Boolean, default=False)
+    confirmed = db.Column(db.Boolean, default=True)
     role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)

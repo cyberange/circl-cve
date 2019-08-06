@@ -32,12 +32,12 @@ def register():
         models.db.session.add(user)
         models.db.session.commit()
         syslog.syslog(syslog.LOG_NOTICE, "New user registered: " + form.email.data)
-        token = user.generate_confirmation_token()
-        send_email(user.email,
-                   'CVE-PORTAL -- Account Confirmation',
-                   '/emails/confirm',
-                   user=user,
-                   token=token)
+        # token = user.generate_confirmation_token()
+        # send_email(user.email,
+        #            'CVE-PORTAL -- Account Confirmation',
+        #            '/emails/confirm',
+        #            user=user,
+        #            token=token)
         flash('A confirmation email has been sent to you by email.', 'info')
         return redirect('/login')
     else:

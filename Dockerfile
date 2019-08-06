@@ -7,10 +7,14 @@ RUN apt update \
     && apt install -y python-mysqldb libmysqlclient-dev python-dev python-pip libssl-dev mysql-client\
     && rm -rf /var/lib/apt/lists/*
 
-COPY app /deploy/app
+# COPY app /deploy/app
+COPY ./app/requirements.txt /opt
+RUN pip install -r /opt/requirements.txt
+
+COPY ./app /deploy/app
 WORKDIR /deploy/app
+
 RUN chmod +x entrypoint.sh
-RUN pip install -r requirements.txt
 
 ENTRYPOINT [ "/deploy/app/entrypoint.sh" ]
 
