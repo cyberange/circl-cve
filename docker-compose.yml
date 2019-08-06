@@ -9,10 +9,10 @@ services:
       - "8000:8000"
     entrypoint: /deploy/app/entrypoint.sh
     environment:
-      - SECRET_KEY=rEMZbzZiNjcmqYrxqXdPsW1W5JO8Aoqe
-      - PORTAL_ADMIN=iamalsaher@sendgrid.net
-      - MAIL_DEFAULT_SENDER=iamalsaher@iamalsaher.tech
-      - MAIL_SERVER=smtp.sendgrid.net
+      - SECRET_KEY=
+      - PORTAL_ADMIN=
+      - MAIL_DEFAULT_SENDER=
+      - MAIL_SERVER=
       - MAIL_PORT=587
       - MAIL_USE_TLS=yes
       - MAIL_USERNAME=
