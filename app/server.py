@@ -10,7 +10,8 @@ from flask_login import LoginManager, current_user
 from flask_script import Manager
 
 import models
-from utils import mail, mongo
+# from utils import mail, mongo
+from utils import mongo
 from views.main import main_blueprint
 from views.notif import notif_blueprint, mongo
 from views.user import user_blueprint
@@ -32,13 +33,13 @@ app.config['SECRET_KEY'] = os.getenv("SECRET_KEY")
 # app.config['WTF_CSRF_ENABLED'] = True
 
 # SMTP email config #
-app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
-app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
-app.config['MAIL_USE_TLS'] = True if os.getenv('MAIL_USE_TLS') else False
-app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
-app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
-app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
-mail.init_app(app)
+# app.config['MAIL_SERVER'] = os.getenv('MAIL_SERVER')
+# app.config['MAIL_PORT'] = os.getenv('MAIL_PORT')
+# app.config['MAIL_USE_TLS'] = True if os.getenv('MAIL_USE_TLS') else False
+# app.config['MAIL_DEFAULT_SENDER'] = os.getenv('MAIL_DEFAULT_SENDER')
+# app.config['MAIL_USERNAME'] = os.getenv('MAIL_USERNAME')
+# app.config['MAIL_PASSWORD'] = os.getenv('MAIL_PASSWORD')
+# mail.init_app(app)
 
 # Super Admin #
 app.config['PORTAL_ADMIN'] = os.getenv('PORTAL_ADMIN')

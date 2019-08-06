@@ -6,7 +6,8 @@ from flask_login import login_required, current_user, login_user, logout_user
 
 import models
 import form_class
-from utils import send_email, gpg
+# from utils import send_email, gpg
+from utils import gpg
 
 user_blueprint = Blueprint('user', __name__)
 
@@ -38,8 +39,8 @@ def register():
         #            '/emails/confirm',
         #            user=user,
         #            token=token)
-        flash('A confirmation email has been sent to you by email.', 'info')
-        return redirect('/login')
+        # flash('A confirmation email has been sent to you by email.', 'info')
+        return redirect('/user/login')
     else:
         if form.email.data is not None:
             pass
@@ -74,15 +75,17 @@ def logout():
 @user_blueprint.route('/confirm')
 @login_required
 def resend_confirmation():
-    token = current_user.generate_confirmation_token()
-    send_email(current_user.email,
-               'CVE-PORTAL -- Account Confirmation',
-               '/emails/confirm',
-               user=current_user,
-               token=token)
-    syslog.syslog(syslog.LOG_WARNING, "User Resend a Confirmation Email to: " + current_user.email)
-    flash('A new confirmation email has been sent to you by email.', 'info')
+    flash('This feature has not been implemented.', 'info')
     return redirect(url_for('main.index'))
+    # token = current_user.generate_confirmation_token()
+    # send_email(current_user.email,
+    #            'CVE-PORTAL -- Account Confirmation',
+    #            '/emails/confirm',
+    #            user=current_user,
+    #            token=token)
+    # syslog.syslog(syslog.LOG_WARNING, "User Resend a Confirmation Email to: " + current_user.email)
+    # flash('A new confirmation email has been sent to you by email.', 'info')
+    # return redirect(url_for('main.index'))
 
 
 @user_blueprint.route('/confirm/<token>')
@@ -126,45 +129,49 @@ def change_password():
 
 @user_blueprint.route('/reset_pwd', methods=['GET', 'POST'])
 def password_reset_request():
-    if not current_user.is_anonymous():
-        return redirect(url_for('main.index'))
-    form = form_class.PasswordResetRequestForm()
-    if form.validate_on_submit():
-        user = models.User.query.filter_by(email=form.email.data).first()
-        if user:
-            token = user.generate_reset_token()
-            send_email(user.email,
-                       'CVE-PORTAL -- Reset Password Request',
-                       '/emails/password_reset',
-                       user=user,
-                       token=token,
-                       next=request.args.get('next'))
-            # syslog.syslog(syslog.LOG_WARNING, "User password reset request is asked: " + current_user.email)
-            flash('An email with instructions to reset your password has been sent to you.', 'info')
-            return redirect(url_for('user.login'))
-    return render_template('auth/reset_password.html', form=form)
+    flash('This feature has not been implemented.', 'info')
+    return redirect(url_for('main.index'))
+    # if not current_user.is_anonymous():
+    #     return redirect(url_for('main.index'))
+    # form = form_class.PasswordResetRequestForm()
+    # if form.validate_on_submit():
+    #     user = models.User.query.filter_by(email=form.email.data).first()
+    #     if user:
+    #         token = user.generate_reset_token()
+    #         send_email(user.email,
+    #                    'CVE-PORTAL -- Reset Password Request',
+    #                    '/emails/password_reset',
+    #                    user=user,
+    #                    token=token,
+    #                    next=request.args.get('next'))
+    #         # syslog.syslog(syslog.LOG_WARNING, "User password reset request is asked: " + current_user.email)
+    #         flash('An email with instructions to reset your password has been sent to you.', 'info')
+    #         return redirect(url_for('user.login'))
+    # return render_template('auth/reset_password.html', form=form)
 
 
 @user_blueprint.route('/change_email', methods=['GET', 'POST'])
 @login_required
 def change_email_request():
-    form = form_class.ChangeEmailForm()
-    if form.validate_on_submit():
-        if current_user.verify_password(form.password.data):
-            new_email = escape(form.email.data)
-            token = current_user.generate_email_change_token(new_email)
-            send_email(new_email,
-                       'CVE-PORTAL -- Confirm your email address',
-                       '/emails/change_email',
-                       user=current_user,
-                       token=token)
-            syslog.syslog(syslog.LOG_WARNING,
-                          "User as requested an email change: Old:" + current_user.email + " New: " + form.email.data)
-            flash('An email with instructions to confirm your new email address has been sent to you.', 'info')
-            return redirect(url_for('main.index'))
-        else:
-            flash('Invalid email or password.', 'danger')
-    return render_template("auth/change_email.html", form=form)
+    flash('This feature has not been implemented.', 'info')
+    return redirect(url_for('main.index'))
+    # form = form_class.ChangeEmailForm()
+    # if form.validate_on_submit():
+    #     if current_user.verify_password(form.password.data):
+    #         new_email = escape(form.email.data)
+    #         token = current_user.generate_email_change_token(new_email)
+    #         send_email(new_email,
+    #                    'CVE-PORTAL -- Confirm your email address',
+    #                    '/emails/change_email',
+    #                    user=current_user,
+    #                    token=token)
+    #         syslog.syslog(syslog.LOG_WARNING,
+    #                       "User as requested an email change: Old:" + current_user.email + " New: " + form.email.data)
+    #         flash('An email with instructions to confirm your new email address has been sent to you.', 'info')
+    #         return redirect(url_for('main.index'))
+    #     else:
+    #         flash('Invalid email or password.', 'danger')
+    # return render_template("auth/change_email.html", form=form)
 
 
 @user_blueprint.route('/change_pgp', methods=['GET', 'POST'])

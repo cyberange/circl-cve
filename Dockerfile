@@ -7,7 +7,6 @@ RUN apt update \
     && apt install -y python-mysqldb libmysqlclient-dev python-dev python-pip libssl-dev mysql-client\
     && rm -rf /var/lib/apt/lists/*
 
-# COPY app /deploy/app
 COPY ./app/requirements.txt /opt
 RUN pip install -r /opt/requirements.txt
 

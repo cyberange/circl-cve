@@ -6,16 +6,16 @@ import gnupg
 import redis as redisdb
 from flask import render_template, abort
 from flask_login import current_user
-from flask_mail import Message, Mail
+# from flask_mail import Message, Mail
 from flask_pymongo import PyMongo
 
 import models
 
-def send_email(to, subject, template, **kwargs):
-    msg = Message(subject, recipients=[to], sender=os.getenv('MAIL_DEFAULT_SENDER'))
-    msg.body = render_template(template + '.txt', **kwargs)
-    msg.html = render_template(template + '.html', **kwargs)
-    return mail.send(msg)
+# def send_email(to, subject, template, **kwargs):
+#     msg = Message(subject, recipients=[to], sender=os.getenv('MAIL_DEFAULT_SENDER'))
+#     msg.body = render_template(template + '.txt', **kwargs)
+#     msg.html = render_template(template + '.html', **kwargs)
+#     return mail.send(msg)
 
 
 def permission_required(permission):
@@ -39,4 +39,4 @@ redis = redisdb.StrictRedis(host=os.getenv('REDIS_HOST'),
                             port=os.getenv('REDIS_PORT'),
                             db=os.getenv('REDIS_DB'))
 mongo = PyMongo()
-mail = Mail()
+# mail = Mail()
