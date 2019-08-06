@@ -1,22 +1,22 @@
 version: '2'
 
 services:
-  circlcve:
+  app:
     build: .
     user: root
     restart: always
+    entrypoint: /deploy/app/entrypoint.sh
     ports:
       - "8000:8000"
-    entrypoint: /deploy/app/entrypoint.sh
     environment:
-      - SECRET_KEY=
-      - PORTAL_ADMIN=
-      - MAIL_DEFAULT_SENDER=
-      - MAIL_SERVER=
-      - MAIL_PORT=587
-      - MAIL_USE_TLS=yes
-      - MAIL_USERNAME=
-      - MAIL_PASSWORD=
+      - SECRET_KEY=rEMZbzZiNjcmqYrxqXdPsW1W5JO8Aoqe
+      - PORTAL_ADMIN=iamalsaher@sendgrid.net
+      # - MAIL_DEFAULT_SENDER=
+      # - MAIL_SERVER=
+      # - MAIL_PORT=587
+      # - MAIL_USE_TLS=yes
+      # - MAIL_USERNAME=
+      # - MAIL_PASSWORD=
       - MONGO_HOST=mongo
       - MONGO_PORT=27017
       - MONGO_DB=circlcve
@@ -67,6 +67,17 @@ services:
     - .data/redis:/data
     networks:
         internal:
+
+  nginx:
+      image: "nginx:mainline"
+      volumes:
+        - ./conf.d:/etc/nginx/conf.d
+      environment:
+        - net.ipv6.conf.all.forwarding=1 
+      ports:
+        - "1337:8000"
+      depends_on:
+        - app
 
 networks:
     default:
