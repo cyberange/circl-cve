@@ -6,11 +6,11 @@ services:
     user: root
     restart: always
     entrypoint: /deploy/app/entrypoint.sh
-    ports:
-      - "8000:8000"
+    # ports:
+    #   - "8000:8000"
     environment:
       - SECRET_KEY=rEMZbzZiNjcmqYrxqXdPsW1W5JO8Aoqe
-      - PORTAL_ADMIN=iamalsaher@sendgrid.net
+      - PORTAL_ADMIN=swapnil@cyberange.io
       # - MAIL_DEFAULT_SENDER=
       # - MAIL_SERVER=
       # - MAIL_PORT=587
@@ -75,7 +75,8 @@ services:
       environment:
         - net.ipv6.conf.all.forwarding=1 
       ports:
-        - "1337:8000"
+        - "8080:80"
+        - "8443:443"
       depends_on:
         - app
 
