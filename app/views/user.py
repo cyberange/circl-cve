@@ -29,7 +29,8 @@ def register():
                            affiliation=escape(form.affiliation.data),
                            pgp=escape(form.pgp.data),
                            password=form.password.data,
-                           fingerprint=fingerp)
+                           fingerprint=fingerp,
+                           confirmed=True)
         models.db.session.add(user)
         models.db.session.commit()
         syslog.syslog(syslog.LOG_NOTICE, "New user registered: " + form.email.data)

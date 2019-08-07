@@ -49,7 +49,8 @@ def admin_home():
                            affiliation=escape(newform.affiliation.data),
                            pgp=newform.pgp.data,
                            password=newform.password.data,
-                           fingerprint=fingerp)
+                           fingerprint=fingerp,
+                           confirmed=True)
 
         models.db.session.add(user)
         models.db.session.commit()
