@@ -1,5 +1,5 @@
 .data/
 *.pyc
 docker-compose.dev.yml
-./conf.d/certificate.cer
-.conf.d/private.key
+conf.d/certificate.crt
+conf.d/private.key
